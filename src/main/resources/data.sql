@@ -1,14 +1,8 @@
 DELETE FROM TODO
-WHERE ID IN (1, 2);
+WHERE ID IN (1111);
 INSERT INTO TODO(ID, TITLE, NOTE)
 VALUES(
-        1,
-        'todo 1 title',
-        'todo 1 note'
-    );
-INSERT INTO TODO(ID, TITLE, NOTE)
-VALUES(
-        2,
-        'todo 2 title',
-        'todo 2 note'
+        1111,
+        'test todo 1111',
+        'test todo 1111'
     );
