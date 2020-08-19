@@ -1,5 +1,6 @@
 package org.bitbucket.yujiorama.jqwik.example.todo;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,7 @@ public class TodoServiceTest {
     @Autowired
     TodoService todoService;
 
+    @DisplayName("{good id} を取得")
     @Test
     public void found() {
 
@@ -22,6 +24,7 @@ public class TodoServiceTest {
         assertEquals(1001L, actual.get().getId());
     }
 
+    @DisplayName("{bad id} を取得")
     @Test
     public void notfound() {
 
@@ -30,12 +33,12 @@ public class TodoServiceTest {
         assertTrue(actual.isEmpty());
     }
 
+    @DisplayName("example を登録")
     @Test
     public void saved() {
 
-        var creationRequest = new TodoCreationRequest();
-        creationRequest.setTitle("title");
-        creationRequest.setNote("note");
+        var creationRequest = TodoCreationRequest.of("title")//
+                .withNote("note");
 
         var actual = todoService.save(creationRequest);
 
