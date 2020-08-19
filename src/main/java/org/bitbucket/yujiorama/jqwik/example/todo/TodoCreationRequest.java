@@ -1,13 +1,16 @@
 package org.bitbucket.yujiorama.jqwik.example.todo;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
-@NoArgsConstructor
+@RequiredArgsConstructor(staticName = "of")
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TodoCreationRequest {
 
-    private String title;
+    @With
+    @NonNull
+    private final String title;
 
+    @With
     private String note;
 }
