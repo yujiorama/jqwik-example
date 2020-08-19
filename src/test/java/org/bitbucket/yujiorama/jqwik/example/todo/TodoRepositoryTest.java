@@ -1,5 +1,6 @@
 package org.bitbucket.yujiorama.jqwik.example.todo;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,12 +15,14 @@ public class TodoRepositoryTest {
     @Autowired
     TodoRepository todoRepository;
 
+    @DisplayName("{good id} を SELECT")
     @Test
     public void found() {
 
         assertFalse(todoRepository.findById(1001L).isEmpty());
     }
 
+    @DisplayName("{bad id} を SELECT")
     @Test
     public void notfound() {
 
