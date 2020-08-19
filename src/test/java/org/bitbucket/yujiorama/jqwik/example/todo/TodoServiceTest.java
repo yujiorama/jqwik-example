@@ -10,13 +10,18 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.TestPropertySources;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
+@TestPropertySources({
+        @TestPropertySource(locations = {"classpath:application-test.properties"})
+})
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TodoServiceTest {
 
     @Autowired
