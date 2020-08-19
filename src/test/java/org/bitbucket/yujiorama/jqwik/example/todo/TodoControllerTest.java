@@ -1,5 +1,6 @@
 package org.bitbucket.yujiorama.jqwik.example.todo;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,17 +19,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class TodoControllerTest {
 
+    @DisplayName("/todo/{good id} の GET リクエスト")
     @Test
     public void get_success(@Autowired MockMvc mockMvc) throws Exception {
 
         mockMvc.perform(//
-                get("/todo/1001"))//
+                get("/todo/1001")//
+        )//
                 .andExpect(status().isOk())//
                 .andExpect(jsonPath("$.id", equalTo(1001)))//
                 .andExpect(jsonPath("$.title", equalTo("testtitle")))//
                 .andExpect(jsonPath("$.note", equalTo("testnote")));
     }
 
+    @DisplayName("/todo/ の PUT リクエスト")
     @Test
     public void put_success(@Autowired MockMvc mockMvc) throws Exception {
 
@@ -44,11 +48,13 @@ public class TodoControllerTest {
                 .andExpect(jsonPath("$.note", equalTo("put_success")));
     }
 
+    @DisplayName("/todo/{bad id} の GET リクエスト")
     @Test
     public void get_notfound(@Autowired MockMvc mockMvc) throws Exception {
 
         mockMvc.perform(//
-                get("/todo/1374"))//
+                get("/todo/1374")//
+        )//
                 .andExpect(status().isNotFound());
     }
 }
