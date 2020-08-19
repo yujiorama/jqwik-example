@@ -10,8 +10,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.TestPropertySources;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 
 import java.util.stream.Stream;
 
@@ -22,6 +25,10 @@ import static org.junit.jupiter.api.Assertions.*;
         @TestPropertySource(locations = {"classpath:application-test.properties"})
 })
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SqlGroup({
+        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {"classpath:data-test-service.sql"})
+})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class TodoServiceTest {
 
     @Autowired
@@ -32,10 +39,10 @@ public class TodoServiceTest {
     @ParameterizedTest
     @ValueSource(
             longs = {
-                    1001L,
-                    2001L,
-                    3001L,
-                    4001L,
+                    1L,
+                    12L,
+                    23L,
+                    1000L,
             }
     )
     public void found(Long goodId) {
@@ -51,10 +58,10 @@ public class TodoServiceTest {
     @ParameterizedTest
     @ValueSource(
             longs = {
-                    91001L,
-                    92001L,
-                    93001L,
-                    94001L,
+                    2001L,
+                    3001L,
+                    4001L,
+                    5001L,
             }
     )
     public void notfound(Long badId) {
