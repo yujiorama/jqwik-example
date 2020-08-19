@@ -1,11 +1,10 @@
-package jqwik.example.todo;
+package org.bitbucket.yujiorama.jqwik.example.todo;
 
-import java.util.Optional;
-
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.AllArgsConstructor;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor

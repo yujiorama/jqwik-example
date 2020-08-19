@@ -1,17 +1,10 @@
-package jqwik.example.todo;
-
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+package org.bitbucket.yujiorama.jqwik.example.todo;
 
 import lombok.AllArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "todo")
@@ -24,12 +17,17 @@ public class TodoController {
     public Todo get(@PathVariable Long id) {
 
         return todoService.findById(id) //
-                .orElseThrow(() -> new NotFoundException());
+                .orElseThrow(NotFoundException::new);
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Todo> put(@RequestBody TodoCreationRequest creationRequest) {
 
         return new ResponseEntity<>(todoService.save(creationRequest), HttpStatus.CREATED);
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "not found")
+    public static class NotFoundException extends RuntimeException {
+        private static final long serialVersionUID = 5831188421609220646L;
     }
 }

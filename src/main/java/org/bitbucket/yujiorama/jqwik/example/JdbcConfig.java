@@ -1,4 +1,4 @@
-package jqwik.example;
+package org.bitbucket.yujiorama.jqwik.example;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

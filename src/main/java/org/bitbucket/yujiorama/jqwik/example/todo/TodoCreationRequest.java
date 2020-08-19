@@ -1,4 +1,4 @@
-package jqwik.example.todo;
+package org.bitbucket.yujiorama.jqwik.example.todo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

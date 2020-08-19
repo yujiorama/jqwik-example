@@ -1,10 +1,10 @@
-package jqwik.example.todo;
-
-import java.util.Optional;
+package org.bitbucket.yujiorama.jqwik.example.todo;
 
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 public interface TodoRepository extends CrudRepository<Todo, Long> {
 
