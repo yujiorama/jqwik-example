@@ -24,11 +24,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestPropertySources({
         @TestPropertySource(locations = {"classpath:application-test.properties"})
 })
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SqlGroup({
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {"classpath:data-test-service.sql"})
 })
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TodoServiceTest {
 
     @Autowired
