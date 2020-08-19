@@ -1,49 +1,86 @@
 package org.bitbucket.yujiorama.jqwik.example.todo;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
 public class TodoServiceTest {
 
     @Autowired
     TodoService todoService;
 
+    @Order(1)
     @DisplayName("{good id} を取得")
-    @Test
-    public void found() {
+    @ParameterizedTest
+    @ValueSource(
+            longs = {
+                    1001L,
+                    2001L,
+                    3001L,
+                    4001L,
+            }
+    )
+    public void found(Long goodId) {
 
-        var actual = todoService.findById(1001L);
+        var actual = todoService.findById(goodId);
 
         assertFalse(actual.isEmpty());
-        assertEquals(1001L, actual.get().getId());
+        assertEquals(goodId, actual.get().getId());
     }
 
+    @Order(2)
     @DisplayName("{bad id} を取得")
-    @Test
-    public void notfound() {
+    @ParameterizedTest
+    @ValueSource(
+            longs = {
+                    91001L,
+                    92001L,
+                    93001L,
+                    94001L,
+            }
+    )
+    public void notfound(Long badId) {
 
-        var actual = todoService.findById(1374L);
+        var actual = todoService.findById(badId);
 
         assertTrue(actual.isEmpty());
     }
 
+    @Order(3)
     @DisplayName("example を登録")
-    @Test
-    public void saved() {
+    @ParameterizedTest
+    @MethodSource({"creationRequestExampleProvider"})
+    public void saved(TodoCreationRequest example) {
 
-        var creationRequest = TodoCreationRequest.of("title")//
-                .withNote("note");
-
-        var actual = todoService.save(creationRequest);
+        var actual = todoService.save(example);
 
         assertNotNull(actual.getId());
-        assertEquals(creationRequest.getTitle(), actual.getTitle());
-        assertEquals(creationRequest.getNote(), actual.getNote());
+        assertEquals(example.getTitle(), actual.getTitle());
+        assertEquals(example.getNote(), actual.getNote());
+    }
+
+    private static Stream<TodoCreationRequest> creationRequestExampleProvider() {
+
+        return Stream.of(
+                new String[]{"first example", "note"},
+                new String[]{"null note example", null},
+                new String[]{"empty note example", ""},
+                new String[]{"日本語タイトル example", "note"},
+                new String[]{"japanese note example", "日本語メモ"}
+        ).map(ar ->
+                TodoCreationRequest.of(ar[0]/*title*/).withNote(ar[1]/*note*/));
     }
 }
