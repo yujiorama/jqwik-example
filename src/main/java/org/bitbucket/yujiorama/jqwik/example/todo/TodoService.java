@@ -20,7 +20,8 @@ public class TodoService {
     @Transactional
     public Todo save(TodoCreationRequest creationRequest) {
 
-        var entity = new Todo(creationRequest.getTitle(), creationRequest.getNote());
+        var entity = Todo.of(creationRequest.getTitle())//
+                .withNote(creationRequest.getNote());
 
         return todoRepository.save(entity);
     }

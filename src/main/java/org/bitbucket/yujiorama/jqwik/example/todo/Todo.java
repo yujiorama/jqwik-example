@@ -1,29 +1,21 @@
 package org.bitbucket.yujiorama.jqwik.example.todo;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.With;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 
 @Data
+@RequiredArgsConstructor(staticName = "of")
 @AllArgsConstructor(access = AccessLevel.PRIVATE, onConstructor_ = {@PersistenceConstructor})
 public class Todo {
 
     @Id
-    @With
-    private final Long id;
+    private Long id;
 
     @With
+    @NonNull
     private final String title;
 
     @With
-    private final String note;
-
-    public Todo(String title, String note) {
-        this.id = null;
-        this.title = title;
-        this.note = note;
-    }
+    private String note;
 }
